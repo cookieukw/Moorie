@@ -20,14 +20,9 @@ const Home: React.FC = () => {
     {
       id: "1",
       name: "Crystal",
-      description: "Ela adorava correr atrás da bola.",
-      photoUrl: "",
-    },
-    {
-      id: "2",
-      name: "Meu Gatinho",
-      description: "Ele era muito curioso e brincalhão.",
-      photoUrl: "",
+      description: "Ela adorava correr atrás das pessoas.",
+      photoUrl:
+        "https://drive.google.com/uc?id=&export=download",
     },
   ];
 

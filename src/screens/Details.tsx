@@ -1,3 +1,4 @@
+import React from "react";
 import {
   IonContent,
   IonHeader,
@@ -17,12 +18,14 @@ import {
   IonBackButton,
 } from "@ionic/react";
 import { useNavigate, useParams } from "react-router-dom";
-import React from "react";
 
 interface MediaItem {
-  type: "image" | "video";
-  url: string;
+  mimeType: string;
+  downloadUrl: string;
+  fileName: string;
 }
+
+import crystalData from "../assets/data/crystal.json";
 
 interface EntityData {
   [key: string]: {
@@ -34,36 +37,24 @@ interface EntityData {
 
 const entityData: EntityData = {
   "1": {
-    name: "Minha Cachorrinha",
-    description: "Ela adorava correr atrás da bola.",
-    media: [
-      { type: "image", url: "/path/to/photo1.jpg" },
-      { type: "image", url: "/path/to/photo2.jpg" },
-      { type: "video", url: "https://www.example.com/path/to/video1.mp4" },
-    ],
-  },
-  "2": {
-    name: "Meu Gatinho",
-    description: "Ele era muito curioso e brincalhão.",
-    media: [
-      { type: "image", url: "/path/to/cat-photo1.jpg" },
-      { type: "image", url: "/path/to/cat-photo2.jpg" },
-      { type: "video", url: "https://www.example.com/path/to/cat-video1.mp4" },
-    ],
+    name: "Crystal",
+    description:
+      'Uma cachorrinha divertida e animada. Sempre me seguia quando eu chegava do trabalho e adorava carinho na barriga. Todos os dias ela me acompanhava da porta de casa até o portão e vice-versa. Quando chegava na porta de casa, esperava eu abrir a porta e deitava no chão de barriga para cima, para ganhar o seu carinho diário. Era obediente na maioria das vezes e consegui aprender o comando de "comer", usado para dar permissão para ela se alimentar. Ela esperava eu por o alimento e dar o comando de comer antes de sair de sua posição sentada e comer igual um leão. Sentirei saudades<3 ',
+    media: crystalData,
   },
 };
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  if (!id) {
-    navigate("/");
-    return;
-  }
-  const entity = entityData[id];
-  const images: MediaItem[] = entity["media"];
 
-  if (!entity) {
+  React.useEffect(() => {
+    if (!id) {
+      navigate("/");
+    }
+  }, [id, navigate]);
+
+  if (!id || !entityData[id]) {
     return (
       <IonPage>
         <IonHeader>
@@ -95,6 +86,11 @@ const Details: React.FC = () => {
     );
   }
 
+  const entity = entityData[id];
+  const images: MediaItem[] = entity.media.filter((item) =>
+    item.mimeType.startsWith("image")
+  );
+
   return (
     <IonPage>
       <IonHeader>
@@ -106,31 +102,76 @@ const Details: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonCardContent>
-          <IonImg
-            src={images[Math.floor(Math.random() * images.length - 1)].url}
-          />
-        </IonCardContent>
         <IonCard>
+          <IonImg
+            src={images.length > 0 ? images[0].downloadUrl : ""}
+            style={{
+              width: "80%",
+              objectFit: "cover",
+              height: "260px",
+              margin: "auto",
+              marginTop: "50px",
+              borderRadius: 15,
+            }}
+          />
+          <IonCardHeader>
+            <IonCardTitle>{entity.name}</IonCardTitle>
+          </IonCardHeader>
           <IonCardContent>
             <IonCardSubtitle>Descrição</IonCardSubtitle>
             <IonCardTitle>{entity.description}</IonCardTitle>
           </IonCardContent>
         </IonCard>
-
-        <IonCard></IonCard>
         <IonGrid>
-          <IonRow></IonRow>
+          <IonRow>
+            {images.slice(1).map((item, index) => (
+              <IonCol size="6" key={index}>
+                <IonCard
+                  style={{
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                    marginBottom: "10px",
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <IonImg
+                    src={item.downloadUrl}
+                    style={{
+                      width: "100%",
+                      height: "150px",
+                      objectFit: "cover",
+                      borderRadius: "10px",
+                    }}
+                  />
+                </IonCard>
+              </IonCol>
+            ))}
+          </IonRow>
           <IonRow>
             {entity.media.map((item, index) => (
-              <IonCol size="12" size-md="6" key={index}>
-                {item.type === "image" ? (
-                  <IonImg src={item.url} />
-                ) : (
-                  <video controls>
-                    <source src={item.url} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
+              <IonCol size="12" key={index}>
+                {item.mimeType.startsWith("video") && (
+                  <IonCard
+                    style={{
+                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                      marginBottom: "10px",
+                      borderRadius: "10px",
+                      overflow: "hidden",
+                    }}
+                    
+                  >
+                    <video
+                      controls
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      <source src={item.downloadUrl} type={item.mimeType} />
+                      Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                  </IonCard>
                 )}
               </IonCol>
             ))}
