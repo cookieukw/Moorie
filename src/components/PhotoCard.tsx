@@ -23,7 +23,15 @@ const PhotoCard: React.FC<PhotoCardProps> = ({ photoUrl, description, id }) => {
 
   return (
     <IonCard>
-      <IonImg src={photoUrl} />
+      <IonImg
+        src={photoUrl}
+        style={{
+          width: "100%",
+          height: "150px",
+          objectFit: "cover",
+          borderRadius: "10px",
+        }}
+      />
       <IonCardHeader>
         <IonCardSubtitle>Descrição</IonCardSubtitle>
         <IonCardTitle>{description}</IonCardTitle>
