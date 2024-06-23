@@ -22,7 +22,7 @@ const Home: React.FC = () => {
       name: "Crystal",
       description: "Ela adorava correr atrás das pessoas.",
       photoUrl:
-        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhVGdo-BKQKXK2sYzlkZYlfIeLBZN9pXPMr_6iRrU8vIGMF7E-3utVo9ZkgfUcx_um6FLh4Pl11Bqh-M2gsxqX_KBC9R0XBCpKVJwgynz1l0N5z4uSGlthmiNA2HC7L4uoZMxdDJcqHjRl768XEgH-SFQVe1l4C5UFM3ZgjQLXqO85hixEjgZXSmxHnc54/s4080/20240329_110359.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBMk7casTgNlW2Fasn7Eunrtk2ZOLofNWFg5UjdlIoTG5Bh1FlF-wXQ2UzJedTxDtnZq45c27SkvWpJw9UkXguDRb3cTt6XalFn-_vFWnMrxPUdlxKRBC4s94dbquN3Tr8m8d67BsH2DF405doQWkD5mxO80usQQa6tCU0-4s1Zb9_E-NzH-Ld5zzkakY/s320/retouch_1718894218249.PNG",
     },
   ];
 

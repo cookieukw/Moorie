@@ -104,7 +104,9 @@ const Details: React.FC = () => {
       <IonContent fullscreen>
         <IonCard>
           <IonImg
-            src={images.length > 0 ? images[0].downloadUrl : ""}
+            src={
+              "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBMk7casTgNlW2Fasn7Eunrtk2ZOLofNWFg5UjdlIoTG5Bh1FlF-wXQ2UzJedTxDtnZq45c27SkvWpJw9UkXguDRb3cTt6XalFn-_vFWnMrxPUdlxKRBC4s94dbquN3Tr8m8d67BsH2DF405doQWkD5mxO80usQQa6tCU0-4s1Zb9_E-NzH-Ld5zzkakY/s320/retouch_1718894218249.PNG"
+            }
             style={{
               width: "80%",
               objectFit: "cover",
@@ -158,7 +160,6 @@ const Details: React.FC = () => {
                       borderRadius: "10px",
                       overflow: "hidden",
                     }}
-                    
                   >
                     <video
                       controls
