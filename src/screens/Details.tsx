@@ -26,11 +26,13 @@ interface MediaItem {
 }
 
 import crystalData from "../assets/data/crystal.json";
+import VideoPlayer from "../components/VideoPlayer";
 
 interface EntityData {
   [key: string]: {
     name: string;
     description: string;
+    date: string;
     media: MediaItem[];
   };
 }
@@ -38,6 +40,7 @@ interface EntityData {
 const entityData: EntityData = {
   "1": {
     name: "Crystal",
+    date:"fevereiro/2024 - 27/maio/2024",
     description:
       'Uma cachorrinha divertida e animada. Sempre me seguia quando eu chegava do trabalho e adorava carinho na barriga. Todos os dias ela me acompanhava da porta de casa até o portão e vice-versa. Quando chegava na porta de casa, esperava eu abrir a porta e deitava no chão de barriga para cima, para ganhar o seu carinho diário. Era obediente na maioria das vezes e consegui aprender o comando de "comer", usado para dar permissão para ela se alimentar. Ela esperava eu por o alimento e dar o comando de comer antes de sair de sua posição sentada e comer igual um leão. Sentirei saudades<3 ',
     media: crystalData,
@@ -104,9 +107,7 @@ const Details: React.FC = () => {
       <IonContent fullscreen>
         <IonCard>
           <IonImg
-            src={
-              "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBMk7casTgNlW2Fasn7Eunrtk2ZOLofNWFg5UjdlIoTG5Bh1FlF-wXQ2UzJedTxDtnZq45c27SkvWpJw9UkXguDRb3cTt6XalFn-_vFWnMrxPUdlxKRBC4s94dbquN3Tr8m8d67BsH2DF405doQWkD5mxO80usQQa6tCU0-4s1Zb9_E-NzH-Ld5zzkakY/s320/retouch_1718894218249.PNG"
-            }
+            src={images[1].downloadUrl}
             style={{
               width: "80%",
               objectFit: "cover",
@@ -122,6 +123,10 @@ const Details: React.FC = () => {
           <IonCardContent>
             <IonCardSubtitle>Descrição</IonCardSubtitle>
             <IonCardTitle>{entity.description}</IonCardTitle>
+          </IonCardContent>
+          <IonCardContent>
+            <IonCardSubtitle>Data</IonCardSubtitle>
+            <IonCardTitle>{entity.date}</IonCardTitle>
           </IonCardContent>
         </IonCard>
         <IonGrid>
@@ -151,7 +156,7 @@ const Details: React.FC = () => {
           </IonRow>
           <IonRow>
             {entity.media.map((item, index) => (
-              <IonCol size="12" key={index}>
+              <IonCol size="6" key={index}>
                 {item.mimeType.startsWith("video") && (
                   <IonCard
                     style={{
@@ -161,17 +166,10 @@ const Details: React.FC = () => {
                       overflow: "hidden",
                     }}
                   >
-                    <video
-                      controls
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      <source src={item.downloadUrl} type={item.mimeType} />
-                      Seu navegador não suporta o elemento de vídeo.
-                    </video>
+                    <VideoPlayer
+                      videoUrl={item.downloadUrl}
+                      imagePoster={images[1].downloadUrl}
+                    />
                   </IonCard>
                 )}
               </IonCol>
