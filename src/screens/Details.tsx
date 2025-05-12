@@ -1,4 +1,3 @@
-import React from "react";
 import {
   IonContent,
   IonHeader,
@@ -17,47 +16,50 @@ import {
   IonButtons,
   IonBackButton,
 } from "@ionic/react";
-import { useNavigate, useParams } from "react-router-dom";
-
-interface MediaItem {
-  mimeType: string;
-  downloadUrl: string;
-  fileName: string;
-}
-
-import crystalData from "../assets/data/crystal.json";
+import { useParams } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { FaCalendarAlt, FaInfoCircle, FaImages, FaVideo } from "react-icons/fa";
+import gsap from "gsap";
+import entities from "../data/entities";
 import VideoPlayer from "../components/VideoPlayer";
-
-interface EntityData {
-  [key: string]: {
-    name: string;
-    description: string;
-    date: string;
-    media: MediaItem[];
-  };
-}
-
-const entityData: EntityData = {
-  "1": {
-    name: "Crystal",
-    date:"fevereiro/2024 - 27/maio/2024",
-    description:
-      'Uma cachorrinha divertida e animada. Sempre me seguia quando eu chegava do trabalho e adorava carinho na barriga. Todos os dias ela me acompanhava da porta de casa até o portão e vice-versa. Quando chegava na porta de casa, esperava eu abrir a porta e deitava no chão de barriga para cima, para ganhar o seu carinho diário. Era obediente na maioria das vezes e consegui aprender o comando de "comer", usado para dar permissão para ela se alimentar. Ela esperava eu por o alimento e dar o comando de comer antes de sair de sua posição sentada e comer igual um leão. Sentirei saudades<3 ',
-    media: crystalData,
-  },
-};
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  const entity = entities.find((e) => e.id === id);
+  const images = entity?.media?.filter((item) => item.mimeType.startsWith("image")) || [];
+  const videos = entity?.media?.filter((item) => item.mimeType.startsWith("video")) || [];
 
-  React.useEffect(() => {
-    if (!id) {
-      navigate("/");
+  const mainRef = useRef<HTMLDivElement>(null);
+  const imgRefs = useRef<HTMLDivElement[]>([]);
+  const vidRefs = useRef<HTMLDivElement[]>([]);
+
+  useEffect(() => {
+    if (mainRef.current) {
+      gsap.fromTo(
+        mainRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+      );
     }
-  }, [id, navigate]);
 
-  if (!id || !entityData[id]) {
+    imgRefs.current.forEach((el, i) => {
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.5, delay: i * 0.1, ease: "power2.out" }
+      );
+    });
+
+    vidRefs.current.forEach((el, i) => {
+      gsap.fromTo(
+        el,
+        { opacity: 0, x: -30 },
+        { opacity: 1, x: 0, duration: 0.5, delay: i * 0.15, ease: "power2.out" }
+      );
+    });
+  }, []);
+
+  if (!id || !entity) {
     return (
       <IonPage>
         <IonHeader>
@@ -89,11 +91,6 @@ const Details: React.FC = () => {
     );
   }
 
-  const entity = entityData[id];
-  const images: MediaItem[] = entity.media.filter((item) =>
-    item.mimeType.startsWith("image")
-  );
-
   return (
     <IonPage>
       <IonHeader>
@@ -105,77 +102,94 @@ const Details: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonCard>
-          <IonImg
-            src={images[1].downloadUrl}
-            style={{
-              width: "80%",
-              objectFit: "cover",
-              height: "260px",
-              margin: "auto",
-              marginTop: "50px",
-              borderRadius: 15,
-            }}
-          />
-          <IonCardHeader>
-            <IonCardTitle>{entity.name}</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonCardSubtitle>Descrição</IonCardSubtitle>
-            <IonCardTitle>{entity.description}</IonCardTitle>
-          </IonCardContent>
-          <IonCardContent>
-            <IonCardSubtitle>Data</IonCardSubtitle>
-            <IonCardTitle>{entity.date}</IonCardTitle>
-          </IonCardContent>
-        </IonCard>
-        <IonGrid>
-          <IonRow>
-            {images.slice(1).map((item, index) => (
-              <IonCol size="6" key={index}>
-                <IonCard
-                  style={{
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                    marginBottom: "10px",
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                  }}
-                >
-                  <IonImg
-                    src={item.downloadUrl}
-                    style={{
-                      width: "100%",
-                      height: "150px",
-                      objectFit: "cover",
-                      borderRadius: "10px",
-                    }}
-                  />
-                </IonCard>
-              </IonCol>
-            ))}
-          </IonRow>
-          <IonRow>
-            {entity.media.map((item, index) => (
-              <IonCol size="6" key={index}>
-                {item.mimeType.startsWith("video") && (
-                  <IonCard
-                    style={{
-                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                      marginBottom: "10px",
-                      borderRadius: "10px",
-                      overflow: "hidden",
+        <div ref={mainRef}>
+          <IonCard>
+            <IonImg
+              src={images[0]?.downloadUrl}
+              style={{
+               // width: "100%",
+                //objectFit: "cover",
+                height: "240px",
+                borderRadius: "15px",
+              }}
+            />
+            <IonCardHeader>
+              <IonCardTitle>{entity.name}</IonCardTitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonCardSubtitle>
+                <FaInfoCircle style={{ marginRight: "6px" }} />
+                Descrição
+              </IonCardSubtitle>
+              <p
+                style={{
+                  whiteSpace: "pre-line",
+                  padding: "1rem 2rem",
+                  textAlign: "justify",
+                }}
+              >
+                {entity.longDescription}
+              </p>
+            </IonCardContent>
+            <IonCardContent>
+              <IonCardSubtitle>
+                <FaCalendarAlt style={{ marginRight: "6px" }} />
+                Data
+              </IonCardSubtitle>
+              <p>{entity.date}</p>
+            </IonCardContent>
+          </IonCard>
+
+          <IonGrid>
+            <IonRow>
+              {images.slice(1).map((item, index) => (
+                <IonCol size="6" sizeMd="4" key={index}>
+                  <div
+                    ref={(el) => {
+                      if (el) imgRefs.current[index] = el;
                     }}
                   >
-                    <VideoPlayer
-                      videoUrl={item.downloadUrl}
-                      imagePoster={images[1].downloadUrl}
-                    />
-                  </IonCard>
-                )}
-              </IonCol>
-            ))}
-          </IonRow>
-        </IonGrid>
+                    <IonCard>
+                      <IonImg
+                        src={item.downloadUrl}
+                        style={{
+                          width: "100%",
+                          height: "150px",
+                          objectFit: "cover",
+                          borderRadius: "10px",
+                        }}
+                      />
+                      <IonCardContent className="ion-text-center">
+                        <FaImages />
+                      </IonCardContent>
+                    </IonCard>
+                  </div>
+                </IonCol>
+              ))}
+            </IonRow>
+            <IonRow>
+              {videos.map((item, index) => (
+                <IonCol size="12" sizeMd="6" key={index}>
+                  <div
+                    ref={(el) => {
+                      if (el) vidRefs.current[index] = el;
+                    }}
+                  >
+                    <IonCard>
+                      <VideoPlayer
+                        videoUrl={item.downloadUrl}
+                        imagePoster={images[0]?.downloadUrl}
+                      />
+                      <IonCardContent className="ion-text-center">
+                        <FaVideo />
+                      </IonCardContent>
+                    </IonCard>
+                  </div>
+                </IonCol>
+              ))}
+            </IonRow>
+          </IonGrid>
+        </div>
       </IonContent>
     </IonPage>
   );
