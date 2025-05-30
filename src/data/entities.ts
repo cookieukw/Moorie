@@ -2,6 +2,7 @@ import crystal from "../assets/data/crystal.json";
 import bombom from "../assets/data/bombom.json"
 import frajola from "../assets/data/frajola.json"
 import floco_de_neve from "../assets/data/floco_de_neve.json"
+import sansao from "../assets/data/sansao.json"
 
 export interface MediaItem {
   mimeType: string;
@@ -83,6 +84,7 @@ mas congelou pra sempre no coração de quem te amou`,
     photoUrl: "https://i.imgur.com/9PBQUdd.jpeg",
     media:floco_de_neve,
   },
+  
   {
     id: "4",
     name: "Bombom",
@@ -92,6 +94,25 @@ mas congelou pra sempre no coração de quem te amou`,
     date: "03/12/2024 - 12/05/2025",
     photoUrl: "https://i.imgur.com/NL2SVNw.jpeg",
     media: bombom
+  },{
+    id: "5",
+    name: "Sansão",
+    shortDescription:
+      "Sansão foi mais que um cachorro — foi amigo, consolo e companhia. Travesso quando queria, sábio quando precisava. Guardava segredos no olhar e amor no coração.",
+    longDescription: `Hoje nos despedimos do Sansão, um cachorrinho que foi muito mais do que um animal de estimação — foi um verdadeiro companheiro de vida.
+
+Sansão tinha um jeito único. Às vezes atentado, fazia uma bagunça daquelas, e em outras, parecia o melhor amigo do mundo, calmo e carinhoso. Era imprevisível de um jeito encantador: brincalhão quando a gente menos esperava, sábio quando mais precisávamos. Tinha algo nos olhos dele... como se enxergasse o que ninguém mais via. Ele sabia de coisas que nunca disse, e guardava tudo em silêncio, como quem entende que o amor também se expressa no não dito.
+
+Ele nos acompanhou nos dias bons e ruins, fez parte da rotina, das risadas e até dos silêncios. Às vezes parecia um travesso, outras, um anjo. Mas sempre, sempre foi leal. Do jeitinho dele, esteve ao nosso lado, sem pedir nada além de um pouco de carinho e companhia.
+
+Agora, a casa está mais quieta, o chão mais vazio, mas o coração... o coração está cheio de lembranças. Sentiremos falta do barulho das patinhas, do olhar atento, da presença dele nos cantos mais simples do dia.
+
+Obrigado, Sansão, por tudo. Pelo amor, pela parceria e pelas lições silenciosas. Você foi único. E vai fazer falta para sempre.
+
+Descanse bem, nosso pequeno sábio.`,
+    date: "??? - 29/05/2025",
+    photoUrl: "https://i.imgur.com/sZZ9aKo.jpeg",
+    media: sansao
   },
 ];
 export default entities;
