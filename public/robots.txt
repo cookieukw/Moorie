@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://moorie.vercel.app/sitemap.xml

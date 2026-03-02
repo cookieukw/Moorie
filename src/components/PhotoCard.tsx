@@ -48,37 +48,44 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
   return (
     <IonCard
       ref={cardRef}
+      className="glass-effect"
       style={{
         height: "100%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        borderRadius: "12px",
-        boxShadow: "0 4px 14px rgba(0,0,0,0.1)",
-        transition: "transform 0.3s",
+        borderRadius: "16px",
+        transition: "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s",
       }}
-      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.02)")}
-      onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "scale(1.03) translateY(-4px)";
+        e.currentTarget.style.boxShadow = "0 20px 40px rgba(0,0,0,0.4)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "scale(1) translateY(0)";
+        e.currentTarget.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.3)";
+      }}
     >
       <IonImg
         src={photoUrl || "https://via.placeholder.com/300x150?text=Sem+Imagem"}
         alt={title}
         style={{
           width: "100%",
-          height: "180px",
+          height: "200px",
           objectFit: "cover",
-          borderTopLeftRadius: "12px",
-          borderTopRightRadius: "12px",
+          borderTopLeftRadius: "16px",
+          borderTopRightRadius: "16px",
         }}
       />
       <IonCardHeader>
-        <IonCardSubtitle>{title}</IonCardSubtitle>
+        <IonCardSubtitle style={{ color: "var(--ion-color-primary)", letterSpacing: "1px", fontWeight: 600 }}>{title}</IonCardSubtitle>
         <IonCardTitle
           style={{
-            fontSize: "14px",
-            fontWeight: "normal",
-            color: "#444",
-            marginTop: "4px",
+            fontSize: "15px",
+            fontWeight: 400,
+            color: "#cbd5e1", /* Slate 300 */
+            marginTop: "8px",
+            lineHeight: "1.4",
           }}
         >
           {description}
@@ -97,10 +104,12 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
       </IonCardContent>
       <IonButton
         expand="block"
+        fill="solid"
+        color="primary"
         onClick={() => navigate(`/details/${id}`)}
-        style={{ margin: "12px", display: "flex", alignItems: "center", gap: "6px" }}
+        style={{ margin: "14px", borderRadius: "8px", '--border-radius': '8px', fontWeight: 500, letterSpacing: '0.5px' }}
       >
-        <IonIcon icon={eye} />
+        <IonIcon icon={eye} slot="start" />
         Ver Detalhes
       </IonButton>
     </IonCard>
