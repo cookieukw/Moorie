@@ -110,7 +110,7 @@ Agora, a casa está mais quieta, o chão mais vazio, mas o coração... o coraç
 Obrigado, Sansão, por tudo. Pelo amor, pela parceria e pelas lições silenciosas. Você foi único. E vai fazer falta para sempre.
 
 Descanse bem, nosso pequeno sábio.`,
-    date: "??? - 29/05/2025",
+    date: "??? - 29/05/2026",
     photoUrl: "https://i.imgur.com/sZZ9aKo.jpeg",
     media: sansao
   },
